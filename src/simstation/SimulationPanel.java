@@ -2,7 +2,6 @@ package simstation;
 import mvc.*;
 
 import javax.swing.*;
-import java.awt.*;
 
 
 public class SimulationPanel extends AppPanel {
