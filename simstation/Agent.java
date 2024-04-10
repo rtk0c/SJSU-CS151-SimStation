@@ -3,30 +3,48 @@ package simstation;
 import java.io.Serializable;
 
 // TODO Serializable, Runnable own files?
+//Drunk extends this class
+//Agent is runners of thread
+
 abstract class Agent implements Serializable, Runnable {
-    String name;
+    private String name;
     //Heading heading; // TODO
-    int xc;
-    int yc;
+    //Simulation world;
+    private int xc;
+    private int yc;
     boolean suspended = false;
     boolean stopped = false;
-    Thread myThread;
+    private Thread myThread;
 
-    public abstract void run();
 
-    public abstract void start();
+    public synchronized void suspend() { suspended = true; }
+    public synchronized void resume() { notify(); }
+    public synchronized void stop() { stopped = true; }
+    // used to check stopped
+    public synchronized boolean isStopped() { return stopped; }
 
-    public abstract void suspend();
 
-    public abstract void resume();
+    public void run() {
+        myThread = Thread.currentThread();
 
-    public abstract void stop();
 
+    }
+
+    public void start() {
+
+    }
+    // abstract
     public abstract void update();
 
-    public abstract void move(int steps);
+    public void move(int steps) {
+
+    }
 
 
+    // Agent is runner inside of thread
+    // call move method 10 times to see movement rather
+    // than teleporting to 10th spot
+    // move calls world.changed()
 
 
 
