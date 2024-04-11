@@ -38,7 +38,7 @@ public class SimulationPanel extends AppPanel {
 
     //TODO confirm main exists here or not
     public static void main(String[] args) {
-        AppFactory factory = new SimStationFactory();
+        AppFactory factory = new SimulationFactory();
         AppPanel panel = new SimulationPanel(factory);
         panel.display();
     }

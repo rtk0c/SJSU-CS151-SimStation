@@ -10,16 +10,24 @@ public class SimulationView extends View {
     }
     //TODO SimulationView gets list of agents
 
-    /*public void update()
-    {
+    @Override
+    public void update() {
         repaint();
-    }*/
+    }
 
     @Override
     public void paintComponents(Graphics gc) {
         super.paintComponents(gc);
-        // TODO draws filled in circle for each agent
-        //gc.drawOval(X, Y, r, r);
+        var oldColor = gc.getColor();
 
+        var sim = ((Simulation) model);
+        gc.setColor(Color.WHITE);
+        for (Agent agent : sim.getAgents()) {
+            int x = agent.getX();
+            int y = agent.getY();
+            gc.fillOval(x, y, 10, 10);
+        }
+
+        gc.setColor(oldColor);
     }
 }

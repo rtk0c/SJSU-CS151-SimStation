@@ -3,7 +3,7 @@ package simstation;
 import mvc.*;
 
 
-public class SimStationFactory implements AppFactory {
+public class SimulationFactory implements AppFactory {
     @Override
     public Model makeModel() {
         return new Simulation();
