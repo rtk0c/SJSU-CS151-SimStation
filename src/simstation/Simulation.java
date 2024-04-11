@@ -45,15 +45,13 @@ public class Simulation extends Model {
         changed();
     }
 
-    public Agent getNeighbor(Agent a, Double radius)
-    {
+    public Agent getNeighbor(Agent a, Double radius) {
         //TODO double check returns random agent
 
         return a;
     }
 
-    public void populate()
-    {
+    public void populate() {
         //no op
     }
 

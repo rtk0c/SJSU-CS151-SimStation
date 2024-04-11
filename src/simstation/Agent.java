@@ -17,11 +17,22 @@ abstract class Agent implements Serializable, Runnable {
     private Thread myThread;
 
 
-    public synchronized void suspend() { suspended = true; }
-    public synchronized void resume() { notify(); }
-    public synchronized void stop() { stopped = true; }
+    public synchronized void suspend() {
+        suspended = true;
+    }
+
+    public synchronized void resume() {
+        notify();
+    }
+
+    public synchronized void stop() {
+        stopped = true;
+    }
+
     // used to check stopped
-    public synchronized boolean isStopped() { return stopped; }
+    public synchronized boolean isStopped() {
+        return stopped;
+    }
 
 
     public void run() {
@@ -33,6 +44,7 @@ abstract class Agent implements Serializable, Runnable {
     public void start() {
 
     }
+
     // abstract
     public abstract void update();
 
@@ -45,7 +57,6 @@ abstract class Agent implements Serializable, Runnable {
     // call move method 10 times to see movement rather
     // than teleporting to 10th spot
     // move calls world.changed()
-
 
 
 }

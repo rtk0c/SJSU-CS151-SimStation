@@ -3,6 +3,7 @@ package mvc;
     Edits:
         Kyle 3/5: Created file
  */
+
 import javax.swing.*;
 
 public class View extends JPanel implements Subscriber {

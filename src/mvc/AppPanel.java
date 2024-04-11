@@ -6,13 +6,12 @@ package mvc;
                     added nested control panel code.
  */
 
-import stopLight.StoplightFactory;
-
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class AppPanel extends JPanel implements Subscriber, ActionListener  {
+public class AppPanel extends JPanel implements Subscriber, ActionListener {
 
     protected Model model;
     protected AppFactory factory;
@@ -24,7 +23,7 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
 
     public AppPanel(AppFactory factory) {
         // initialize fields here
-        this.factory =  factory;
+        this.factory = factory;
         model = this.factory.makeModel();
         view = this.factory.makeView(model);
         controlPanel = new JPanel();
@@ -42,11 +41,15 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
         frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     }
 
-    public void display() { frame.setVisible(true); }
+    public void display() {
+        frame.setVisible(true);
+    }
 
     public void update() {  /* override in extensions if needed */ }
 
-    public Model getModel() { return model; }
+    public Model getModel() {
+        return model;
+    }
 
     // called by file/open and file/new
     public void setModel(Model newModel) {
@@ -61,13 +64,13 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
     protected JMenuBar createMenuBar() {
         JMenuBar result = new JMenuBar();
         // add file, edit, and help menus
-        JMenu fileMenu = Utilities.makeMenu("File", new String[] {"New",  "Save", "SaveAs", "Open", "Quit"}, this);
+        JMenu fileMenu = Utilities.makeMenu("File", new String[]{"New", "Save", "SaveAs", "Open", "Quit"}, this);
         result.add(fileMenu);
 
         JMenu editMenu = Utilities.makeMenu("Edit", this.factory.getEditCommands(), this);
         result.add(editMenu);
 
-        JMenu helpMenu = Utilities.makeMenu("Help", new String[] {"About", "Help"}, this);
+        JMenu helpMenu = Utilities.makeMenu("Help", new String[]{"About", "Help"}, this);
         result.add(helpMenu);
 
         return result;

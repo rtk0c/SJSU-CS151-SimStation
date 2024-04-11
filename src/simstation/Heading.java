@@ -1,11 +1,20 @@
 package simstation;
 
 public enum Heading {
-    NORTH, SOUTH, EAST, WEST;
+    NORTH, SOUTH, EAST, WEST,
+    ;
 
     public static Heading parse(String heading) {
-
-        //returns random NORTH, SOUTH, EAST, WEST?
-
+        switch (heading) {
+            case "north":
+                return NORTH;
+            case "south":
+                return SOUTH;
+            case "east":
+                return EAST;
+            case "west":
+                return WEST;
+        }
+        throw new IllegalArgumentException();
     }
 }

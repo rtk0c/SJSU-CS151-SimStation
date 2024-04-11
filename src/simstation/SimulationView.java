@@ -1,7 +1,7 @@
 package simstation;
-import mvc.*;
 
 import java.awt.*;
+import mvc.*;
 
 
 public class SimulationView extends View {
