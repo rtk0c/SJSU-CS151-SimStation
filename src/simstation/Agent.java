@@ -12,8 +12,8 @@ public abstract class Agent implements Serializable, Runnable {
     protected Simulation world;
 
     private String name;
-    private int xc=100;
-    private int yc=100;
+    private int xc = 100;
+    private int yc = 100;
     // Lifecycle of an agent:
     // - Initialization (ctor): marked as started but is not running since no thread has been spawned
     // - Starting (Simulation.start()): a thread is spawned to house this Agent; executes the update loop in run()

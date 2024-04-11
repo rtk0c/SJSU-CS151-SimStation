@@ -36,6 +36,7 @@ public class Simulation extends Model {
     }
 
     public void start() {
+        stop();
         populate();
         for (var agent : agents) {
             new Thread(agent).start();
@@ -54,6 +55,7 @@ public class Simulation extends Model {
         for (Agent agent : agents) {
             agent.stop();
         }
+        agents.clear();
         changed();
     }
 
