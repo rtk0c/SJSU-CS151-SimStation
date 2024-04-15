@@ -36,9 +36,17 @@ public abstract class Agent implements Serializable, Runnable {
 
     public String getName() { return name; }
 
-    public void setX(int xc) { this.xc = xc; }
+    public void setX(int xc) {
+        if (world != null)
+            this.xc = Math.floorMod(xc, world.getWidth());
+        else this.xc = xc;
+    }
     public int getX() { return xc; }
-    public void setY(int yc) { this.yc = yc; }
+    public void setY(int yc) {
+        if (world != null)
+            this.yc = Math.floorMod(yc, world.getHeight());
+        else this.yc = yc;
+    }
     public int getY() { return yc; }
 
     // FIXME: writes to this.xc/yc are not synchronized, so readers (other Agent or Simulation) may read partially
@@ -53,8 +61,8 @@ public abstract class Agent implements Serializable, Runnable {
             case WEST -> dx = -steps;
         }
 
-        this.xc += dx;
-        this.yc += dy;
+        setX(xc + dx);
+        setY(yc + dy);
         world.changed();
     }
 

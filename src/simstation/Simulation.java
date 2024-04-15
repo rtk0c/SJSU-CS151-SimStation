@@ -9,6 +9,9 @@ public class Simulation extends Model {
     private int clock = 0;
     private List<Agent> agents = new ArrayList<>();
 
+    private int areaWidth=400;
+    private int areaHeight=400;
+
     private void startTimer() {
         timer = new Timer();
         timer.scheduleAtFixedRate(new ClockUpdater(), 1000, 1000);
@@ -22,6 +25,8 @@ public class Simulation extends Model {
     public int getCurrentCycle() {
         return clock;
     }
+    public int getHeight() { return areaHeight; }
+    public int getWidth() { return areaWidth; }
 
     // provides agents with thread safe access to stdout
     private class ClockUpdater extends TimerTask {

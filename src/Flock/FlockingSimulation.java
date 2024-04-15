@@ -7,8 +7,7 @@ import simstation.*;
 public class FlockingSimulation extends Simulation {
 
     public void populate() {
-        for(int i = 0; i < 150; i++)
-
+        for(int i = 0; i < 50; i++)
             addAgent(new Bird("Bird " + i));
     }
 
