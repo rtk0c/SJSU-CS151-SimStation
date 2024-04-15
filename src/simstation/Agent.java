@@ -41,6 +41,8 @@ public abstract class Agent implements Serializable, Runnable {
     public void setY(int yc) { this.yc = yc; }
     public int getY() { return yc; }
 
+    // FIXME: writes to this.xc/yc are not synchronized, so readers (other Agent or Simulation) may read partially
+    //        updated positions, where either xc or yc are the old value
     public void move(int steps) {
         int dx = 0;
         int dy = 0;

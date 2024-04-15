@@ -21,7 +21,7 @@ public class PrisonSimulation extends Simulation {
     }
 
     public static void main(String[] args) {
-        var app = new AppPanel(new PrisonFactory());
+        var app = new SimulationPanel(new PrisonFactory());
         app.display();
     }
 }
