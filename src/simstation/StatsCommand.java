@@ -10,6 +10,8 @@ public class StatsCommand extends Command {
     @Override
     public void execute() throws Exception {
         Simulation sim = (Simulation) getModel();
-        sim.stats();
+        String message = sim.stats();
+
+        Utilities.inform(message);
     }
 }

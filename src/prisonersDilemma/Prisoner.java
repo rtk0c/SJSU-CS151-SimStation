@@ -1,5 +1,6 @@
 package prisonersDilemma;
 
+import java.util.concurrent.atomic.*;
 import mvc.*;
 import simstation.*;
 
@@ -7,10 +8,10 @@ import simstation.*;
 // Each Prisoner periodically runs update() on its own thread, as implemented by the simstation framework
 // In the prisoner's dilemma logic, there is 3 mutations: this.partnerCheated, this.fitness, and partner.fitness
 // Out of these, writes to this.partnerCheated are a single set to a boolean, so in JVM memory model it is already atomic; no synchronization primitive needed
-// writes to (this|partner).fitness are increments, so that is guarded in a synchronized method updateFitness(int)
+// writes to (this|partner).fitness are increments, so that is guarded in an AtomicInt to guarantee reads won't get a partially updated
 
 public class Prisoner extends Agent {
-    private int fitness = 0;
+    private AtomicInteger fitness = new AtomicInteger(0);
     private boolean partnerCheated = false;
     private final Strategy strategy;
 
@@ -46,10 +47,14 @@ public class Prisoner extends Agent {
         partnerCheated = !partnerCoop;
     }
 
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
     /* read-only */
-    public int getFitness() { return fitness; }
+    public int getFitness() { return fitness.get(); }
     /* mutating */
-    public synchronized void updateFitness(int amt) { this.fitness += amt; }
+    public void updateFitness(int amt) { fitness.addAndGet(amt); }
 
     /* read-only */
     public boolean cooperate() {
