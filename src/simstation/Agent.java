@@ -1,7 +1,6 @@
 package simstation;
 
-import java.io.Serializable;
-import javax.swing.*;
+import java.io.*;
 
 // TODO Serializable, Runnable own files?
 //Drunk extends this class
@@ -37,7 +36,9 @@ public abstract class Agent implements Serializable, Runnable {
 
     public String getName() { return name; }
 
+    public void setX(int xc) { this.xc = xc; }
     public int getX() { return xc; }
+    public void setY(int yc) { this.yc = yc; }
     public int getY() { return yc; }
 
     public void move(int steps) {

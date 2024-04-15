@@ -13,8 +13,8 @@ class Plague extends Agent {
         super(name);
 
         //TODO check bounds?
-        this.setXc(Utilities.rng.nextInt(350));
-        this.setYc(Utilities.rng.nextInt(475));
+        this.setX(Utilities.rng.nextInt(350));
+        this.setY(Utilities.rng.nextInt(475));
         heading = Heading.random();
         //TODO start random?
         infected = Utilities.rng.nextBoolean();;

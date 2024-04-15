@@ -12,8 +12,8 @@ class Bird extends Agent {
         super(name);
         // Suppossed to add setter?
 
-        this.setXc(Utilities.rng.nextInt(350));
-        this.setYc(Utilities.rng.nextInt(475));
+        this.setX(Utilities.rng.nextInt(350));
+        this.setY(Utilities.rng.nextInt(475));
         // start random, each has heading + speed
         heading = Heading.random();
         speed = Utilities.rng.nextInt(10);
