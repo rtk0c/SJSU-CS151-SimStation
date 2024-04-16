@@ -20,12 +20,13 @@ class Bird extends Agent {
 
     }
 
-
-
+    public int getSpeed(){
+        return speed;
+    }
 
     public void update() {
 
-        Bird randNeighbor = (Bird) world.getNeighbor(this, 1);
+        Bird randNeighbor = (Bird) world.getNeighbor(this, 5);
 
         this.speed = randNeighbor.speed;
         this.heading = randNeighbor.heading;

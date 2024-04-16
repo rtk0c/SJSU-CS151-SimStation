@@ -95,7 +95,7 @@ public class Simulation extends Model {
             Agent that = agents.get(i);
             int deltaX = a.getX() - that.getX();
             int deltaY = a.getY() - that.getY();
-            int distSq = deltaX * deltaY + deltaY * deltaY;
+            int distSq = deltaX * deltaX + deltaY * deltaY;
             if (distSq <= radiusSq) {
                 return that;
             }
