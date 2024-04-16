@@ -4,6 +4,8 @@ import mvc.*;
 import randomwalk.*;
 import simstation.*;
 
+import java.awt.*;
+
 public class RandomWalkSimulation extends Simulation {
 
     public void populate() {
