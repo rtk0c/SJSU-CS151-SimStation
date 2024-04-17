@@ -29,6 +29,8 @@ public class Prisoner extends Agent {
         move(Utilities.rng.nextInt(10) + 1);
 
         var partner = ((Prisoner) world.getNeighbor(this, 10));
+        if (partner == null)
+            return;
 
         boolean thisCoop = this.cooperate();
         boolean partnerCoop = partner.cooperate();

@@ -2,8 +2,6 @@ package Flock;
 
 import mvc.*;
 import simstation.*;
-import java.awt.*;
-import java.util.Iterator;
 
 class Bird extends Agent {
 
@@ -20,13 +18,15 @@ class Bird extends Agent {
 
     }
 
-    public int getSpeed(){
+    public int getSpeed() {
         return speed;
     }
 
     public void update() {
 
         Bird randNeighbor = (Bird) world.getNeighbor(this, 5);
+        if (randNeighbor == null)
+            return;
 
         this.speed = randNeighbor.speed;
         this.heading = randNeighbor.heading;
@@ -34,8 +34,5 @@ class Bird extends Agent {
         int steps = Utilities.rng.nextInt(10) + 1;
 
         move(steps);
-
-    }}
-
-
-
+    }
+}
