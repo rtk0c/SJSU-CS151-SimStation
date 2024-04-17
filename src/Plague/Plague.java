@@ -2,8 +2,6 @@ package Plague;
 
 import mvc.*;
 import simstation.*;
-import java.awt.*;
-import java.util.Iterator;
 
 class Plague extends Agent {
     private boolean infected;
@@ -19,14 +17,12 @@ class Plague extends Agent {
 
     public void update() {
         Plague randNeighbor = (Plague) world.getNeighbor(this, 1);
-        if (randNeighbor != null && !randNeighbor.isInfected())
-        {
+        if (randNeighbor != null && !randNeighbor.isInfected()) {
             boolean infect = Utilities.rng.nextInt(101) < PlagueSimulation.VIRULENCE;
             boolean resist = Utilities.rng.nextInt(101) < PlagueSimulation.RESISTANCE;
 
             //if both not hit keep true
-            if (infect && !resist)
-            {
+            if (infect && !resist) {
                 randNeighbor.setInfected(true);
             }
         }

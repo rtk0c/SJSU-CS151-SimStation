@@ -1,10 +1,8 @@
 package simstation;
 
-import mvc.AppFactory;
-import mvc.AppPanel;
-
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
+import mvc.*;
 
 
 public class SimulationPanel extends AppPanel {

@@ -1,10 +1,8 @@
 package Plague;
-import mvc.*;
-import simstation.Agent;
-import simstation.Simulation;
 
 import java.awt.*;
-import Plague.*;
+import mvc.*;
+import simstation.*;
 
 public class PlagueView extends View {
 

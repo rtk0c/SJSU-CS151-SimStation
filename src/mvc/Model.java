@@ -1,6 +1,6 @@
 package mvc;
 
-import java.io.Serializable;
+import java.io.*;
 
 /*
     Edits:

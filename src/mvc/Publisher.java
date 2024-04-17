@@ -4,8 +4,7 @@ package mvc;
         Kyle 3/5: Created file, pasted in given code
  */
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Publisher {
     private List<Subscriber> subscribers = new LinkedList<Subscriber>();

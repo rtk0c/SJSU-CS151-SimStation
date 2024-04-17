@@ -1,9 +1,8 @@
 package randomwalk;
 
-import mvc.Model;
-import simstation.SimulationView;
-
 import java.awt.*;
+import mvc.*;
+import simstation.*;
 
 public class RandomView extends SimulationView {
     public RandomView(Model model) {

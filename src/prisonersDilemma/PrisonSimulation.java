@@ -1,16 +1,15 @@
 package prisonersDilemma;
 
-import java.util.*;
 import simstation.*;
 
 public class PrisonSimulation extends Simulation {
     @Override
     public void populate() {
         for (int i = 0; i < 10; i++) {
-            addPrisoner(i,  new Strategy.Cooperate(),"cooperate");
-            addPrisoner(i,  new Strategy.Cheat(),"cheat");
-            addPrisoner(i,  new Strategy.RandomlyCooperate(),"randomly_cooperate");
-            addPrisoner(i,  new Strategy.Tit4Tat(),"tit4tat");
+            addPrisoner(i, new Strategy.Cooperate(), "cooperate");
+            addPrisoner(i, new Strategy.Cheat(), "cheat");
+            addPrisoner(i, new Strategy.RandomlyCooperate(), "randomly_cooperate");
+            addPrisoner(i, new Strategy.Tit4Tat(), "tit4tat");
         }
     }
 

@@ -1,9 +1,9 @@
 package mvc;
 
-import javax.swing.*;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.*;
-import java.util.Random;
+import java.util.*;
+import javax.swing.*;
 
 public class Utilities {
 
@@ -52,6 +52,7 @@ public class Utilities {
 
     /**
      * Asks user to save changes.
+     *
      * @return Whether the changes are actually saved. (true for yes, false for canceled saving)
      */
     public static boolean saveChanges(Model model) {
@@ -86,6 +87,7 @@ public class Utilities {
 
     /**
      * Prompt the user to save model.
+     *
      * @return Whether the save actually happened. (true for yes, false for canceled)
      */
     public static boolean save(Model model, Boolean saveAs) {

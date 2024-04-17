@@ -1,9 +1,8 @@
 package Flock;
 
-import mvc.Model;
-import simstation.SimulationView;
-
 import java.awt.*;
+import mvc.*;
+import simstation.*;
 
 public class FlockingView extends SimulationView {
     public FlockingView(Model model) {

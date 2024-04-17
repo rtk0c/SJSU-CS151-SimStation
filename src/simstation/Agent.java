@@ -172,9 +172,9 @@ public abstract class Agent implements Serializable, Runnable {
 
     public abstract void update();
 
-    protected void onStart() {}
-    protected void onInterrupted() {}
-    protected void onExit() {}
+    protected void onStart() { }
+    protected void onInterrupted() { }
+    protected void onExit() { }
 
     // Agent is runner inside of thread
     // call move method 10 times to see movement rather
