@@ -6,10 +6,9 @@ package mvc;
                     added nested control panel code.
  */
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class AppPanel extends JPanel implements Subscriber, ActionListener {
 
@@ -33,7 +32,7 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener {
         this.add(controlPanel);
         this.add(view);
 
-        frame = new SafeFrame();
+        frame = new SafeFrame(this);
         Container cp = frame.getContentPane();
         cp.add(this);
         frame.setJMenuBar(createMenuBar());
@@ -64,7 +63,7 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener {
     protected JMenuBar createMenuBar() {
         JMenuBar result = new JMenuBar();
         // add file, edit, and help menus
-        JMenu fileMenu = Utilities.makeMenu("File", new String[]{"New", "Save", "SaveAs", "Open", "Quit"}, this);
+        JMenu fileMenu = Utilities.makeMenu("File", new String[]{"New", "Save", "Save As", "Open", "Quit"}, this);
         result.add(fileMenu);
 
         JMenu editMenu = Utilities.makeMenu("Edit", this.factory.getEditCommands(), this);
@@ -77,36 +76,40 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        try {
-            String cmmd = ae.getActionCommand();
-
-            if (cmmd.equals("Save")) {
-                Utilities.save(model, false);
-            } else if (cmmd.equals("SaveAs")) {
-                Utilities.save(model, true);
-            } else if (cmmd.equals("Open")) {
+        String cmmd = ae.getActionCommand();
+        switch (cmmd) {
+            case "Save" -> Utilities.save(model, false);
+            case "Save As" -> Utilities.save(model, true);
+            case "Open" -> {
                 Model newModel = Utilities.open(model);
                 if (newModel != null) setModel(newModel);
-            } else if (cmmd.equals("New")) {
-                Utilities.saveChanges(model);
-                setModel(factory.makeModel());
-                // needed cuz setModel sets to true:
-                model.setUnsavedChanges(false);
-            } else if (cmmd.equals("Quit")) {
-                Utilities.saveChanges(model);
-                System.exit(0);
-            } else if (cmmd.equals("About")) {
-                Utilities.inform(factory.about());
-            } else if (cmmd.equals("Help")) {
-                Utilities.inform(factory.getHelp());
-            } else { // must be from Edit menu
-                //???
-                Command current = factory.makeEditCommand(model, cmmd);
-                current.execute();
-
             }
-        } catch (Exception e) {
-            handleException(e);
+            case "New" -> {
+                if (Utilities.saveChanges(model)) {
+                    setModel(factory.makeModel());
+                    // needed cuz setModel sets to true:
+                    model.setUnsavedChanges(false);
+                }
+            }
+            case "Quit" -> {
+                if (Utilities.saveChanges(model)) {
+                    System.exit(0);
+                }
+            }
+            case "About" -> Utilities.inform(factory.about());
+            case "Help" -> Utilities.inform(factory.getHelp());
+            default -> {
+                // must be from Edit menu
+                Command current = factory.makeEditCommand(model, cmmd);
+                if (current == null)
+                    break;
+
+                try {
+                    current.execute();
+                } catch (Exception e) {
+                    handleException(e);
+                }
+            }
         }
     }
 

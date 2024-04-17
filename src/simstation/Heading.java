@@ -6,7 +6,7 @@ public enum Heading {
     NORTH, SOUTH, EAST, WEST,
     ;
 
-    // NOTE(rtk0c): store to avoid repeated allocating arrays on call to Heading.value()
+    // Store to avoid repeated allocating arrays on call to Heading.value()
     public static final Heading[] VALUES = values();
 
     public static Heading parse(String heading) {

@@ -9,15 +9,18 @@ public class Simulation extends Model {
     private int clock = 0;
     private List<Agent> agents = new ArrayList<>();
 
-    private int areaWidth=400;
-    private int areaHeight=400;
+    // TODO set from view size
+    private int areaWidth = 400;
+    private int areaHeight = 400;
 
     private void startTimer() {
+        println("timer started");
         timer = new Timer();
         timer.scheduleAtFixedRate(new ClockUpdater(), 1000, 1000);
     }
 
     private void stopTimer() {
+        println("timer stopped");
         timer.cancel();
         timer.purge();
     }
@@ -25,6 +28,7 @@ public class Simulation extends Model {
     public int getCurrentCycle() {
         return clock;
     }
+
     public int getHeight() { return areaHeight; }
     public int getWidth() { return areaWidth; }
 
@@ -41,11 +45,10 @@ public class Simulation extends Model {
     }
 
     public void start() {
-        stop();
         startTimer();
         populate();
         for (var agent : agents) {
-            new Thread(agent).start();
+            agent.start();
         }
         changed();
     }
@@ -58,10 +61,16 @@ public class Simulation extends Model {
     }
 
     public void stop() {
+        // Signal threads to terminates
         for (Agent agent : agents) {
             agent.stop();
         }
+        // Wait until all of them actually terminates
+        for (Agent agent : agents) {
+            agent.join();
+        }
         agents.clear();
+        stopTimer();
         changed();
     }
 
@@ -77,6 +86,7 @@ public class Simulation extends Model {
         for (Agent agent : agents) {
             agent.resume();
         }
+        startTimer();
         changed();
     }
 

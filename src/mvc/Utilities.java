@@ -50,12 +50,16 @@ public class Utilities {
                 JOptionPane.ERROR_MESSAGE);
     }
 
-    // asks user to save changes
-    public static void saveChanges(Model model) {
+    /**
+     * Asks user to save changes.
+     * @return Whether the changes are actually saved. (true for yes, false for canceled saving)
+     */
+    public static boolean saveChanges(Model model) {
         if (model.getUnsavedChanges() &&
                 !Utilities.confirm("current model has unsaved changes, continue?")) {
-            Utilities.save(model, false);
+            return Utilities.save(model, false);
         }
+        return true;
     }
 
     // asks user for a file name
@@ -80,11 +84,17 @@ public class Utilities {
         return result;
     }
 
-    // save model
-    public static void save(Model model, Boolean saveAs) {
+    /**
+     * Prompt the user to save model.
+     * @return Whether the save actually happened. (true for yes, false for canceled)
+     */
+    public static boolean save(Model model, Boolean saveAs) {
         String fName = model.getFileName();
         if (fName == null || saveAs) {
             fName = getFileName(fName, false);
+            // User canceled
+            if (fName == null)
+                return false;
             model.setFileName(fName);
         }
         try {
@@ -92,9 +102,11 @@ public class Utilities {
             model.setUnsavedChanges(false);
             os.writeObject(model);
             os.close();
+            return true;
         } catch (Exception err) {
             model.setUnsavedChanges(true);
             Utilities.error(err);
+            return false;
         }
     }
 

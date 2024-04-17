@@ -5,21 +5,24 @@ package mvc;
         Kyle 3/5: Created file, pasted in given code
  */
 
+import java.awt.event.*;
 import javax.swing.*;
-import java.awt.event.WindowEvent;
 
 public class SafeFrame extends JFrame {
-
     protected void processWindowEvent(WindowEvent ev) {
         super.processWindowEvent(ev);
         if (ev.getID() == WindowEvent.WINDOW_CLOSING) {
-            if (Utilities.confirm("Are you sure? Unsaved changes will be lost!")) {
-                System.exit(0);
-            }
+            // Clicking X in title bar and clicking Quit menu item should do the same time
+            // NOTE(rtk0c): I believe in most Human Interface Design guidelines, title bar should prompt unsaved changes, and Quit should not,
+            //              but I've gotten deducted points for doing that!
+            app.actionPerformed(new ActionEvent(this, 0, "Quit"));
         }
     }
 
-    public SafeFrame() {
+    private AppPanel app;
+
+    public SafeFrame(AppPanel app) {
+        this.app = app;
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 }

@@ -2,15 +2,11 @@ package simstation;
 
 import java.io.*;
 
-// TODO Serializable, Runnable own files?
-//Drunk extends this class
-//Agent is runners of thread
-
 public abstract class Agent implements Serializable, Runnable {
     protected Heading heading;
     protected Simulation world;
 
-    private String name;
+    private final String name;
     private int xc = 100;
     private int yc = 100;
     // Lifecycle of an agent:
@@ -19,16 +15,18 @@ public abstract class Agent implements Serializable, Runnable {
     // - Suspending (this.suspend()): pause execution
     // - Resuming (this.resume()): resume execution
     // - Stopping (Simulation.stop()): this.stopped is set to true, and in the next iteration of the update loop in run() exits the thread
-    boolean suspended;
-    boolean stopped;
+    boolean suspended = true;
+    // NOTE(rtk0c): I would name this field "running" since it really is just a condition variable to signal the agent to stop its update loop
+    //              But the assignment gave skeletal code named this... yeah
+    boolean stopped = true;
 
+    // NOTE(rtk0c): this field has absolutely no purpose, and actually hinders Agent from being used in a thread pool,
+    //              Thread.currentThread() is perfectly fast--in fact it is just a read from a hardware register on HotSpot JVM.
+    //              But I guess the assignment UML diagram has it, so we'll just leave it there
     protected transient Thread myThread;
 
     public Agent(String name) {
         this.name = name;
-        suspended = false;
-        stopped = false;
-        myThread = null;
     }
 
     public Simulation getWorld() { return world; }
@@ -37,6 +35,7 @@ public abstract class Agent implements Serializable, Runnable {
     public String getName() { return name; }
 
     public void setX(int xc) {
+        // Implement world coordinate wrap-around
         if (world != null)
             this.xc = Math.floorMod(xc, world.getWidth());
         else this.xc = xc;
@@ -51,6 +50,7 @@ public abstract class Agent implements Serializable, Runnable {
 
     // FIXME: writes to this.xc/yc are not synchronized, so readers (other Agent or Simulation) may read partially
     //        updated positions, where either xc or yc are the old value
+    //        (the assignment doesn't seem to care so...)
     public void move(int steps) {
         int dx = 0;
         int dy = 0;
@@ -94,7 +94,18 @@ public abstract class Agent implements Serializable, Runnable {
         notify();
     }
 
-    public synchronized void join() {
+    public void start() {
+        // NOTE(rtk0c): this allows us to run the same Agent multiple times, although the assignment didn't prescribe this
+        if (stopped) {
+            stopped = false;
+            suspended = false;
+            new Thread(this).start();
+        } else {
+            throw new IllegalStateException("Running the Agent twice is not supported");
+        }
+    }
+
+    public void join() {
         try {
             if (myThread != null) myThread.join();
         } catch (InterruptedException e) {
@@ -102,12 +113,36 @@ public abstract class Agent implements Serializable, Runnable {
         }
     }
 
+    // When an object is deserialized using ObjectInputStream, if a method with this signature is present, it is called
+    // We use this to recreate the Threads for each Agent
+    @Serial
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        if (!stopped) {
+            assert suspended;
+            // Immediately put myself into a suspended state
+            new Thread(this).start();
+        }
+    }
+
+    @Serial
+    private void writeObject(ObjectOutputStream out) throws IOException, ClassNotFoundException {
+        boolean oldSuspended = suspended;
+        // TODO this breaks the invariant that onSuspend should always be called before suspend
+        //   (to an Agent deserialized, it is as-if onSuspend had not been called and onResume gets called)
+        this.suspended = true;
+        out.defaultWriteObject();
+        this.suspended = oldSuspended;
+    }
+
     // wait for notification if I'm not stopped and I am suspended
-    private synchronized void checkSuspended() {
+    private void checkSuspended() {
         try {
             while (!stopped && suspended) {
-                wait();
-                suspended = false;
+                synchronized (this) {
+                    wait();
+                    suspended = false;
+                }
             }
         } catch (InterruptedException e) {
             world.println(e.getMessage());
@@ -117,6 +152,8 @@ public abstract class Agent implements Serializable, Runnable {
     @Override
     public void run() {
         myThread = Thread.currentThread();
+        // Support starting in the suspended state
+        checkSuspended();
         while (!isStopped()) {
             try {
                 update();
@@ -128,11 +165,6 @@ public abstract class Agent implements Serializable, Runnable {
         }
         world.println(name + " stopped");
     }
-
-    // TODO(rtk0c): there is no need for this method; when each agent's Thread is start()'ed, run() is called and this.stopped is initialized to false; there is no way to restart an agent either (the thread would have exited immediately after this.stopped = true)
-    //              but then the UML diagram prescribes this thing?
-//    public void start() {
-//    }
 
     public abstract void update();
 
