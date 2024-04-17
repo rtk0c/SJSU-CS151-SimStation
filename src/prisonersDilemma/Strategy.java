@@ -3,33 +3,17 @@ package prisonersDilemma;
 import mvc.*;
 
 public abstract class Strategy {
-    protected final Prisoner myPrisoner;
-    public Strategy(Prisoner myPrisoner) { this.myPrisoner = myPrisoner; }
+    protected Prisoner myPrisoner;
+
+    public Prisoner getPrisoner() { return myPrisoner; }
+    public void setPrisoner(Prisoner myPrisoner) { this.myPrisoner = myPrisoner; }
 
     public abstract boolean cooperate();
 
-    public enum Type {
-        COOPERATE,
-        CHEAT,
-        RANDOMLY_COOPERATE,
-        TIT4TAT,
-        ;
-
-        public static final Type[] VALUES = values();
-    }
-
-    public static Strategy makeStrategy(Type type, Prisoner forPrisoner) {
-        return switch (type) {
-            case COOPERATE -> new Cooperate(forPrisoner);
-            case CHEAT -> new Cheat(forPrisoner);
-            case RANDOMLY_COOPERATE -> new RandomlyCooperate(forPrisoner);
-            case TIT4TAT -> new Tit4Tat(forPrisoner);
-        };
-    }
+    // NOTE(rtk0c): static nested class is essentially the same as a separate file, but allows us to avoid having 4 more
+    //              tabs open, each with bare any code inside
 
     public static class Cooperate extends Strategy {
-        public Cooperate(Prisoner myPrisoner) { super(myPrisoner); }
-
         @Override
         public boolean cooperate() {
             return true;
@@ -37,8 +21,6 @@ public abstract class Strategy {
     }
 
     public static class Cheat extends Strategy {
-        public Cheat(Prisoner myPrisoner) { super(myPrisoner); }
-
         @Override
         public boolean cooperate() {
             return false;
@@ -46,8 +28,6 @@ public abstract class Strategy {
     }
 
     public static class RandomlyCooperate extends Strategy {
-        public RandomlyCooperate(Prisoner myPrisoner) { super(myPrisoner); }
-
         @Override
         public boolean cooperate() {
             return Utilities.rng.nextDouble() < 0.5;
@@ -55,8 +35,6 @@ public abstract class Strategy {
     }
 
     public static class Tit4Tat extends Strategy {
-        public Tit4Tat(Prisoner myPrisoner) { super(myPrisoner); }
-
         @Override
         public boolean cooperate() {
             return !myPrisoner.hasPartnerCheated();

@@ -15,10 +15,11 @@ public class Prisoner extends Agent {
     private boolean partnerCheated = false;
     private final Strategy strategy;
 
-    public Prisoner(String name, Strategy.Type strategyType) {
+    public Prisoner(String name, Strategy strategy) {
         super(name);
-        strategy = Strategy.makeStrategy(strategyType, this);
-        heading = Heading.random();
+        strategy.setPrisoner(this);
+        this.strategy = strategy;
+        this.heading = Heading.random();
     }
 
     @Override

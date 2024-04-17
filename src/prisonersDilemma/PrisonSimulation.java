@@ -1,20 +1,27 @@
 package prisonersDilemma;
 
+import java.util.*;
 import simstation.*;
 
 public class PrisonSimulation extends Simulation {
     @Override
     public void populate() {
         for (int i = 0; i < 10; i++) {
-            for (var type : Strategy.Type.VALUES) {
-                String name = "prisoner" + i + "-" + type.name().toLowerCase();
-                addAgent(new Prisoner(name, type));
-            }
+            addPrisoner(i,  new Strategy.Cooperate(),"cooperate");
+            addPrisoner(i,  new Strategy.Cheat(),"cheat");
+            addPrisoner(i,  new Strategy.RandomlyCooperate(),"randomly_cooperate");
+            addPrisoner(i,  new Strategy.Tit4Tat(),"tit4tat");
         }
+    }
+
+    private void addPrisoner(int i, Strategy strategy, String strategyName) {
+        String name = "prisoner" + i + "-" + strategyName;
+        addAgent(new Prisoner(name, strategy));
     }
 
     @Override
     public String stats() {
+        // FIXME: this does is """open to extension""" of more strategies
         float fitnessCoop = 0.0f;
         int fitnessCoopCnt = 0;
         float fitnessCheat = 0.0f;
@@ -24,7 +31,6 @@ public class PrisonSimulation extends Simulation {
         float fitnessTit4Tat = 0.0f;
         int fitnessTit4TatCnt = 0;
 
-        // TODO
         for (Agent agent : getAgents()) {
             Prisoner prisoner = ((Prisoner) agent);
             Strategy st = prisoner.getStrategy();
