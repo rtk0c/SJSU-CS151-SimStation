@@ -145,6 +145,7 @@ public abstract class Agent implements Serializable, Runnable {
                 }
             }
         } catch (InterruptedException e) {
+            onInterrupted();
             world.println(e.getMessage());
         }
     }
@@ -152,6 +153,7 @@ public abstract class Agent implements Serializable, Runnable {
     @Override
     public void run() {
         myThread = Thread.currentThread();
+        onStart();
         // Support starting in the suspended state
         checkSuspended();
         while (!isStopped()) {
@@ -160,13 +162,19 @@ public abstract class Agent implements Serializable, Runnable {
                 Thread.sleep(20);
                 checkSuspended();
             } catch (InterruptedException e) {
+                onInterrupted();
                 world.println(e.getMessage());
             }
         }
+        onExit();
         world.println(name + " stopped");
     }
 
     public abstract void update();
+
+    protected void onStart() {}
+    protected void onInterrupted() {}
+    protected void onExit() {}
 
     // Agent is runner inside of thread
     // call move method 10 times to see movement rather
