@@ -21,7 +21,7 @@ public class SimulationPanel extends AppPanel {
         startPanel.setLayout(new FlowLayout());
         JButton startButton = new JButton("Start");
         startButton.addActionListener(this);
-        startButton.setBackground(Color.pink);
+        startButton.setBackground(Color.white);
         startPanel.add(startButton, BorderLayout.NORTH);
 
 
@@ -30,7 +30,7 @@ public class SimulationPanel extends AppPanel {
         suspendPanel.setLayout(new FlowLayout());
         JButton suspendButton = new JButton("Suspend");
         suspendButton.addActionListener(this);
-        suspendButton.setBackground(Color.pink);
+        suspendButton.setBackground(Color.white);
         suspendPanel.add(suspendButton, BorderLayout.NORTH);
 
         JPanel resumePanel = new JPanel();
@@ -38,7 +38,7 @@ public class SimulationPanel extends AppPanel {
         resumePanel.setLayout(new FlowLayout());
         JButton resumeButton = new JButton("Resume");
         resumeButton.addActionListener(this);
-        resumeButton.setBackground(Color.pink);
+        resumeButton.setBackground(Color.white);
         resumePanel.add(resumeButton, BorderLayout.NORTH);
 
         JPanel stopPanel = new JPanel();
@@ -46,7 +46,7 @@ public class SimulationPanel extends AppPanel {
         stopPanel.setLayout(new FlowLayout());
         JButton stopButton = new JButton("Stop");
         stopButton.addActionListener(this);
-        stopButton.setBackground(Color.pink);
+        stopButton.setBackground(Color.white);
         stopPanel.add(stopButton, BorderLayout.NORTH);
 
         JPanel statsPanel = new JPanel();
@@ -54,7 +54,7 @@ public class SimulationPanel extends AppPanel {
         statsPanel.setLayout(new FlowLayout());
         JButton statsButton = new JButton("Stats");
         statsButton.addActionListener(this);
-        statsButton.setBackground(Color.pink);
+        statsButton.setBackground(Color.white);
         statsPanel.add(statsButton, BorderLayout.NORTH);
 
         controlPanel.add(BorderLayout.NORTH, startPanel);
