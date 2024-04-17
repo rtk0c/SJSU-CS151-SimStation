@@ -1,8 +1,9 @@
 package prisonersDilemma;
 
+import java.io.*;
 import mvc.*;
 
-public abstract class Strategy {
+public abstract class Strategy implements Serializable {
     protected Prisoner myPrisoner;
 
     public Prisoner getPrisoner() { return myPrisoner; }
