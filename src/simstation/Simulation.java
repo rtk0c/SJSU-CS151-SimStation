@@ -42,6 +42,7 @@ public class Simulation extends Model {
 
     public void start() {
         stop();
+        startTimer();
         populate();
         for (var agent : agents) {
             new Thread(agent).start();
@@ -68,6 +69,7 @@ public class Simulation extends Model {
         for (Agent agent : agents) {
             agent.suspend();
         }
+        stopTimer();
         changed();
     }
 
